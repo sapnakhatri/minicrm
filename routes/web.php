@@ -16,7 +16,7 @@ use App\Http\Controllers\LocalizationController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Auth::routes();
@@ -24,9 +24,9 @@ Route::get('/register', function() {
     return redirect('/login');
 });
 
-Route::get('lang/{locale}', [App\Http\Controllers\LocalizationController::class, 'index']);
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('companies', CompanyController::class);
-Route::resource('employees', EmployeeController::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::resource('companies', CompanyController::class);
+    Route::resource('employees', EmployeeController::class);
+    Route::get('lang/{locale}', [App\Http\Controllers\LocalizationController::class, 'index']);
+});

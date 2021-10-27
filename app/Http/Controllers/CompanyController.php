@@ -155,8 +155,7 @@ class CompanyController extends Controller
     {
         $result['response'] = 'error';
          $deleteData = Company::find($id)->delete($id);
-         $relationData = Employee::where('company',$id)->delete();
-         if($deleteData || ($deleteData && $relationData)){
+         if($deleteData){
             $result['response'] = 'success';
          }
         
